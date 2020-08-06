@@ -29,16 +29,21 @@ password = "123"
 robotID = 0
 
 # SET COMMANDS
+def Reset(speed = 100):
+    d = {'username': username, 'password': password, 'robotID':robotID, 'speed':speed}
+    r = requests.post("http://" + IP + ":" + PORT + "/Reset", data = json.dumps(d), timeout=1)
+    print(r.json())
+
 def SetPosition(x, y, z, speed = 100):
     d = {'username': username, 'password': password, 'robotID':robotID, 
          'speed':speed, 'position':{'x':x,'y':y,'z':z}}
-    r = requests.post("http://" + IP + ":" + PORT + "/GetPosition", data = json.dumps(d), timeout=1)
+    r = requests.post("http://" + IP + ":" + PORT + "/SetPosition", data = json.dumps(d), timeout=1)
     print(r.json())
 
 def SetRotation(x, y, z, speed = 100):
     d = {'username': username, 'password': password, 'robotID':robotID, 
          'speed':speed, 'rotation':{'x':x,'y':y,'z':z}}
-    r = requests.post("http://" + IP + ":" + PORT + "/GetRotation", data = json.dumps(d), timeout=1)
+    r = requests.post("http://" + IP + ":" + PORT + "/SetRotation", data = json.dumps(d), timeout=1)
     print(r.json())
 
 def Translate(x, y, z, speed = 100, local = False):
@@ -63,4 +68,7 @@ def GetRotation():
     d = {'username': username, 'password': password, 'robotID':robotID}
     r = requests.post("http://" + IP + ":" + PORT + "/GetRotation", data = json.dumps(d), timeout=1)
     print(r.json())
+
+SetPosition(0,0.08,0,100)
+GetPosition()
 
