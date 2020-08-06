@@ -22,58 +22,45 @@ import json      #Needed to format robot control messages.
 import requests  #Needed to send HTTP requests. 
                  #More info: https://requests.readthedocs.io/en/master/
 
-
-
-
 IP = "192.168.1.155"
 PORT = "8000"
 username = "Bob"
 password = "123"
+robotID = 0
 
-'''
-p = {'robotID':1}
-r = requests.get("http://" + IP + ":" + PORT + "/position", params = p, timeout=1)
-print(r.text)
-'''
+# SET COMMANDS
+def SetPosition(x, y, z, speed = 100):
+    d = {'username': username, 'password': password, 'robotID':robotID, 
+         'speed':speed, 'position':{'x':x,'y':y,'z':z}}
+    r = requests.post("http://" + IP + ":" + PORT + "/GetPosition", data = json.dumps(d), timeout=1)
+    print(r.json())
 
+def SetRotation(x, y, z, speed = 100):
+    d = {'username': username, 'password': password, 'robotID':robotID, 
+         'speed':speed, 'rotation':{'x':x,'y':y,'z':z}}
+    r = requests.post("http://" + IP + ":" + PORT + "/GetRotation", data = json.dumps(d), timeout=1)
+    print(r.json())
 
-d = {'username': username, 'password': password, 'robotID':0}
-r = requests.post("http://" + IP + ":" + PORT + "/GetPosition", data = json.dumps(d), timeout=1)
-print(r.json())
+def Translate(x, y, z, speed = 100, local = False):
+    d = {'username': username, 'password': password, 'robotID':robotID, 
+         'speed':speed, 'local':local, 'position':{'x':x,'y':y,'z':z} }
+    r = requests.post("http://" + IP + ":" + PORT + "/Translate", data = json.dumps(d), timeout=1)
+    print(r.json())
 
-'''
-d = {'position':['x','y','z']}
-r = requests.post("http://" + IP + ":" + PORT + "/submit", data = json.dumps(d), timeout=1)
-#print(r.json())
-print(r.text)
-'''
+def Rotate(x, y, z, speed = 100, local = False):
+    d = {'username': username, 'password': password, 'robotID':robotID, 
+         'speed':speed, 'local':local, 'rotation':{'x':x,'y':y,'z':z} }
+    r = requests.post("http://" + IP + ":" + PORT + "/Rotate", data = json.dumps(d), timeout=1)
+    print(r.json())
 
-'''
-UDP_IP = "192.168.1.155"
-UDP_PORT = 9000
-MESSAGE = "Hello, World!"
+# GET COMMANDS
+def GetPosition():
+    d = {'username': username, 'password': password, 'robotID':robotID}
+    r = requests.post("http://" + IP + ":" + PORT + "/GetPosition", data = json.dumps(d), timeout=1)
+    print(r.json())
 
-print("UDP target IP: %s" % UDP_IP)
-print("UDP target port: %s" % UDP_PORT)
-print("message: %s" % MESSAGE)
-           
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #(Internet, UDP)                               
-#sock.sendto(MESSAGE.encode('utf-8'), (UDP_IP, UDP_PORT))
-
-def sendPosition(x, y, z):
-  data = {
-    "position": { "x":x,"y":y,"z":z }
-  }
-  jsonMessage = json.dumps(data)
-  sock.sendto(jsonMessage.encode('utf-8'), (UDP_IP, UDP_PORT))
-
-def sendRotation(x, y, z):
-  data = {
-    "rotation": { "x":x,"y":y,"z":z }
-  }
-  jsonMessage = json.dumps(data)
-  sock.sendto(jsonMessage.encode('utf-8'), (UDP_IP, UDP_PORT))
-
-sendPosition(1,2,3)  
-'''  
+def GetRotation():
+    d = {'username': username, 'password': password, 'robotID':robotID}
+    r = requests.post("http://" + IP + ":" + PORT + "/GetRotation", data = json.dumps(d), timeout=1)
+    print(r.json())
 
