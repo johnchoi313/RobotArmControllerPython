@@ -28,6 +28,11 @@ username = "Bob"
 password = "123"
 robotID = 0
 
+'''
+Note: All POSITION variables in meters.
+      All ROTATION variables in degrees.
+'''
+
 # SET COMMANDS
 def Reset(speed = 100):
     d = {'username': username, 'password': password, 'robotID':robotID, 'speed':speed}
