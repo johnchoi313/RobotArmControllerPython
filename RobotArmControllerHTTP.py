@@ -16,6 +16,39 @@ import asyncio   #Another type of threading for asynchronous multi-processing.
 import json      #Needed to format robot control messages. 
                  #More info: https://docs.python.org/3/library/json.html
                       
+import json      #Needed to format robot control messages. 
+                 #More info: https://docs.python.org/3/library/json.html
+
+import requests  #Needed to send HTTP requests. 
+                 #More info: https://requests.readthedocs.io/en/master/
+
+
+
+
+IP = "192.168.1.155"
+PORT = "8000"
+username = "Bob"
+password = "123"
+
+'''
+p = {'robotID':1}
+r = requests.get("http://" + IP + ":" + PORT + "/position", params = p, timeout=1)
+print(r.text)
+'''
+
+
+d = {'username': username, 'password': password, 'robotID':0}
+r = requests.post("http://" + IP + ":" + PORT + "/GetPosition", data = json.dumps(d), timeout=1)
+print(r.json())
+
+'''
+d = {'position':['x','y','z']}
+r = requests.post("http://" + IP + ":" + PORT + "/submit", data = json.dumps(d), timeout=1)
+#print(r.json())
+print(r.text)
+'''
+
+'''
 UDP_IP = "192.168.1.155"
 UDP_PORT = 9000
 MESSAGE = "Hello, World!"
@@ -42,5 +75,5 @@ def sendRotation(x, y, z):
   sock.sendto(jsonMessage.encode('utf-8'), (UDP_IP, UDP_PORT))
 
 sendPosition(1,2,3)  
-  
+'''  
 
