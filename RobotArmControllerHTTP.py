@@ -22,7 +22,7 @@ import json      #Needed to format robot control messages.
 import requests  #Needed to send HTTP requests. 
                  #More info: https://requests.readthedocs.io/en/master/
 
-IP = "192.168.1.155"
+IP = "127.0.0.1"
 PORT = "8000"
 username = "Bob"
 password = "123"
@@ -74,6 +74,14 @@ def GetRotation():
     r = requests.post("http://" + IP + ":" + PORT + "/GetRotation", data = json.dumps(d), timeout=1)
     print(r.json())
 
-SetPosition(0,0.08,0,100)
-GetPosition()
+Reset()
+time.sleep(1)
 
+SetPosition(0,0.8,0,100)
+time.sleep(1)
+
+SetPosition(0.1,0.8,0,100)
+time.sleep(1)
+
+SetPosition(0.1,0.8,0.2,100)
+time.sleep(1)
